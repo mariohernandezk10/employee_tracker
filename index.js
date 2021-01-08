@@ -26,10 +26,15 @@ connection.connect(async function (err) {
 // 2. VIEW Roles
 // 3. VIEW Employees
 async function viewEmployee() {
+    const SQL_STATEMENT = 'select * from employee;';
+    const [rows, fields] = await connection.promise().query(SQL_STATEMENT);
+    console.table(rows);
+}
+
+async function viewDepartment() {
     const SQL_STATEMENT = 'select * from department;';
     const [rows, fields] = await connection.promise().query(SQL_STATEMENT);
     console.table(rows);
-
 }
 
 async function viewRole() {
@@ -41,6 +46,10 @@ async function viewRole() {
 
 // Functions to ADD
 // 1. ADD Departments
+
+// the code below is the SQL statement to create a department
+// insert into department(name) values("Developers");
+
 // 2. ADD Roles
 // 3. ADD Employees
 async function start() {

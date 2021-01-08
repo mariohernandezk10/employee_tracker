@@ -46,3 +46,5 @@ insert into employee(first_name, last_name, role_id, manager_id) values("Austin"
 insert into employee(first_name, last_name, role_id, manager_id) values("Drake", "Canada", 2, 1);
 insert into employee(first_name, last_name, role_id, manager_id) values("Curtis", "Jackson", 2, 1);
 
+UPDATE roles SET title = 'title', salary= '100000' WHERE department_id = 1;
+UPDATE employee SET last_name = 'last_name', City= 'Frankfurt' WHERE role_id = 1;
