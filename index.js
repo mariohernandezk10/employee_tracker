@@ -22,9 +22,6 @@ connection.connect(async function (err) {
 });
 
 // Functions to VIEW
-// 1. VIEW Departments
-// 2. VIEW Roles
-// 3. VIEW Employees
 
 function viewDepartment() {
     // const SQL_STATEMENT = 'select * from department;';
@@ -56,15 +53,9 @@ function viewRole() {
     })
 }
 
-
-
-
-// NEEDS WORK; TODO
-
-// Functions to ADD
-// 1. ADD Departments
+// Functions to ADD ----- TODO
 // 2. ADD Roles
-// 3. ADD Employees
+// 3. ADD Employees  ------ Doubles
 // I hard coded the SQL statement but I need to refer to what the user inputs via Prompt
 
 function addDepartment() {
@@ -78,14 +69,14 @@ function addDepartment() {
         connection.query(`INSERT INTO employeeTracker_DB.department (name) VALUES ('${name}')`, function (err) {
             if (err) throw err;
             viewDepartment();
-            start();
+            // start();
         })
     })
 }
 
 // ALSO NEED TO ADD MORE QUESTIONS FIRST_NAME LAST_NAME ROLE_ID AND MANAGER_ID
 function addEmployee() {
-    inquirer.prompt({
+    inquirer.prompt([{
         name: "employeeName",
         type: "input",
         message: "What is the name of the employee?"
@@ -104,7 +95,7 @@ function addEmployee() {
         name: "managerId",
         type: "number",
         message: "What is the manager id of the employee?"
-    }).then(function (answer) {
+    }]).then(function (answer) {
 
         var name = answer.employeeName;
         var last_name = answer.lastName;
@@ -114,14 +105,14 @@ function addEmployee() {
         connection.query(`INSERT INTO employeeTracker_DB.employee (first_name, last_name, role_id, manager_id) VALUES ('${name}', '${last_name}', '${role_id}', '${manager_id}')`, function (err) {
             if (err) throw err;
             viewEmployee();
-            start();
+            // start();
         })
     })
 }
 
 // ALSO NEED TO ADD MORE QUESTIONS i.e TITLE SALARY AND DEPARTMENT_ID
 function addRole() {
-    inquirer.prompt({
+    inquirer.prompt([{
         name: "title",
         type: "input",
         message: "What is the title of the employee?"
@@ -135,16 +126,17 @@ function addRole() {
         name: "departmentId",
         type: "number",
         message: "What is the department ID of the employee?"
-    }).then(function (answer) {
+    }]).then(function (answer) {
 
+        // create and if statement that doesn't allow the user to input anything else but a NUMBER
         var title = answer.title;
         var salary = answer.salary;
         var department_id = answer.departmentId;
 
         connection.query(`INSERT INTO employeeTracker_DB.role (title, salary, department_id) VALUES ('${title}', '${salary}', '${department_id}')`, function (err) {
             if (err) throw err;
-            viewEmployee();
-            start();
+            viewRole();
+            // start();
         })
     })
 }
@@ -191,7 +183,22 @@ function start() {
 // 2. UPDATE Employees
 // I hard coded the SQL statement but I need to refer to what the user inputs via Prompt
 
-
+function updateRoles() {
+    inquirer.prompt({
+        name: "departmentName",
+        type: "input",
+        message: "What is the name of the department you want?"
+    }).then(function (answer) {
+        var title = answer.title;
+        var salary = answer.salary;
+        connection.query(`UPDATE role SET title = '${title}', salary= '100000' WHERE role(id) = 1;
+        `, function (err) {
+            if (err) throw err;
+            viewRole();
+            // start();
+        })
+    })
+}
 
 
 
