@@ -15,7 +15,8 @@ CREATE TABLE role(
   salary decimal,
 --   to hold reference to department role belongs to
   department_id int,
-  PRIMARY KEY (id)
+  PRIMARY KEY (id), 
+  FOREIGN KEY (department_id) REFERENCES department(id)
 );
 
 CREATE TABLE employee(
@@ -24,10 +25,13 @@ CREATE TABLE employee(
   last_name VARCHAR(30) NOT NULL,
 --   INT to hold reference to role employee has
   role_id int,
--- to hold reference to another employee that 
+  FOREIGN KEY (role_id) REFERENCES role(id),
+--   isManager boolean,
+--   to hold reference to another employee that 
 -- manages the employee being Created. This field 
 -- may be null if the employee has no manager
   manager_id int,
+  FOREIGN KEY (manager_id) REFERENCES employee(id),
   PRIMARY KEY (id)
 );
 
