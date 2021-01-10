@@ -53,6 +53,7 @@ function viewRole() {
     })
 }
 
+
 // Functions to ADD ----- TODO
 // 2. ADD Roles
 // 3. ADD Employees  ------ Doubles
@@ -77,25 +78,26 @@ function addDepartment() {
 // ALSO NEED TO ADD MORE QUESTIONS FIRST_NAME LAST_NAME ROLE_ID AND MANAGER_ID
 function addEmployee() {
     inquirer.prompt([{
-        name: "employeeName",
-        type: "input",
-        message: "What is the name of the employee?"
-    },
-    {
-        name: "lastName",
-        type: "input",
-        message: "What is the last name of the employee?"
-    },
-    {
-        name: "roleId",
-        type: "number",
-        message: "What is the role id of the employee?"
-    },
-    {
-        name: "managerId",
-        type: "number",
-        message: "What is the manager id of the employee?"
-    }]).then(function (answer) {
+            name: "employeeName",
+            type: "input",
+            message: "What is the name of the employee?"
+        },
+        {
+            name: "lastName",
+            type: "input",
+            message: "What is the last name of the employee?"
+        },
+        {
+            name: "roleId",
+            type: "number",
+            message: "What is the role id of the employee?"
+        },
+        {
+            name: "managerId",
+            type: "number",
+            message: "What is the manager id of the employee?"
+        }
+    ]).then(function (answer) {
 
         var name = answer.employeeName;
         var last_name = answer.lastName;
@@ -113,20 +115,21 @@ function addEmployee() {
 // ALSO NEED TO ADD MORE QUESTIONS i.e TITLE SALARY AND DEPARTMENT_ID
 function addRole() {
     inquirer.prompt([{
-        name: "title",
-        type: "input",
-        message: "What is the title of the employee?"
-    },
-    {
-        name: "salary",
-        type: "input",
-        message: "What is the salary of the employee?"
-    },
-    {
-        name: "departmentId",
-        type: "number",
-        message: "What is the department ID of the employee?"
-    }]).then(function (answer) {
+            name: "title",
+            type: "input",
+            message: "What is the title of the employee?"
+        },
+        {
+            name: "salary",
+            type: "input",
+            message: "What is the salary of the employee?"
+        },
+        {
+            name: "departmentId",
+            type: "number",
+            message: "What is the department ID of the employee?"
+        }
+    ]).then(function (answer) {
 
         // create and if statement that doesn't allow the user to input anything else but a NUMBER
         var title = answer.title;
@@ -142,15 +145,13 @@ function addRole() {
 }
 
 
-
-
 function start() {
     inquirer.prompt({
         name: "choice",
         type: "rawlist",
         message: "What do you want to do?",
         // put these in variables
-        choices: ["View Department", "View Employee", "View Roles", "ADD Department", "ADD Employee", "ADD Role"]
+        choices: ["View Department", "View Employee", "View Roles", "ADD Department", "ADD Employee", "ADD Role", "UPDATE Employee Role"]
     }).then(function (res) {
         switch (res.choice) {
             // reference variables here
@@ -172,10 +173,40 @@ function start() {
             case "ADD Role":
                 addRole();
                 break;
+            case "UPDATE Employee Role":
+                whichRole();
+                break;
         }
     })
 }
 
+function whichRole() {
+    connection.query(`select * from role`, function (err, rows) {
+        if (err) throw err;
+        // console.table(rows);
+        // console.log(rows[0]);
+        // console.table(rows[0].title);
+        for (let i = 0; i < rows.length; i++) {
+            console.table(rows[i].title);
+            choices = rows[i].title;
+// the point of this function below is to use the current choices and create a prompt
+            createUsingChoices(choices);
+            stringChoice = choices.toString();
+
+        }
+    })
+}
+
+function createUsingChoices(stringChoice) {
+    inquirer.prompt({
+        name: "roles",
+        type: "rawlist",
+        choices: [stringChoice]
+    }).then(function (answer) {
+        let employeeToBe = answer.roles;
+        
+    })
+}
 
 // NEEDS WORK; TODO
 // Functions to UPDATE
@@ -183,15 +214,26 @@ function start() {
 // 2. UPDATE Employees
 // I hard coded the SQL statement but I need to refer to what the user inputs via Prompt
 
-function updateRoles() {
-    inquirer.prompt({
-        name: "departmentName",
-        type: "input",
-        message: "What is the name of the department you want?"
-    }).then(function (answer) {
+function updateRole() {
+    inquirer.prompt([{
+            name: "title",
+            type: "input",
+            message: "What is the new title of the employee?"
+        },
+        {
+            name: "salary",
+            type: "number",
+            message: "What is the employee's new salary?"
+        },
+        {
+            name: "id",
+            type: "number",
+            message: "What is the employee's id?"
+        }
+    ]).then(function (answer) {
         var title = answer.title;
         var salary = answer.salary;
-        connection.query(`UPDATE role SET title = '${title}', salary= '100000' WHERE role(id) = 1;
+        connection.query(`UPDATE role SET title = '${title}', salary= '${salary}' WHERE role(id) = ${answer.id};
         `, function (err) {
             if (err) throw err;
             viewRole();
@@ -206,9 +248,18 @@ function updateRoles() {
 
 
 //Bonus points if you're able to:
+
+// Functions to Delete
+// 1. DELETE departments
+// 2. DELETE roles
+// 3. DELETE employees
+
+
+
+
+
 // * Update employee managers
 // * View employees by manager
-// * Delete departments, roles, and employees
 // * View the total utilized budget of a department 
 // ie the combined salaries of all employees in that department
 
