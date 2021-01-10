@@ -196,11 +196,6 @@ function updateRole() {
         name: "roleId",
         type: "input",
         message: "What is the role ID?"
-    },
-    {
-        name: "salary",
-        type: "input",
-        message: "What is the salary?"
     }
 ]).then(function (answers) {
         connection.query(
