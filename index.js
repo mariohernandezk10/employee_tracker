@@ -179,13 +179,7 @@ function start() {
 }
 
 
-// NEEDS WORK; TODO
-// Functions to UPDATE
-// 1. UPDATE Roles
-// 2. UPDATE Employees
-// I hard coded the SQL statement but I need to refer to what the user inputs via Prompt
-
-
+// Functions to UPDATE Role
 function updateRole() {
     inquirer.prompt([{
         name: "employeeId",
@@ -209,14 +203,10 @@ function updateRole() {
             ],
             function (err, res) {
                 if (err) throw err;
-                console.log(res.affectedRows + " products updated!\n");
                 viewRole();
-                // Call deleteProduct AFTER the UPDATE completes
             })
-        // console.log(query.sql);
     })
 }
-
 
 function showEmployee() {
     connection.query(`SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.name FROM employee INNER JOIN role on role.id = employee.role_id LEFT JOIN department ON department.id = role.department_id;`, function (err, rows) {
@@ -234,56 +224,3 @@ function showEmployee() {
 // 1. DELETE departments
 // 2. DELETE roles
 // 3. DELETE employees
-
-
-
-
-
-// * Update employee managers
-// * View employees by manager
-// * View the total utilized budget of a department 
-// ie the combined salaries of all employees in that department
-
-
-// company xyz
-// 	- departments
-// 		1. mangagement
-// 			- roles
-// 				1. ceo
-// 					- employee
-// 						1.
-//                         2.
-//                 2. cfo
-// 					- employee
-// 						3.
-//                 3. president
-//         2. marketing
-// 			- roles
-// 				4. director
-//                 5. sr. mgr
-//                 6. mgr
-// 					- employee
-// 						4. sai
-//                         5. mario
-//                 7. employees
-// 					- employee
-// 						6.
-
-//         3. hr
-// 			- roles
-// 				4. director
-//                 6. mgr
-//                 7. employees
-
-
-//         Table1 department
-// 			Table2 role
-// 				Table3 Employee
-//                 role table
-//                 id | Name | ForeginKey
-//                 6 | mgr | 2
-
-
-//                 employeee table
-//                 id | Name | foreignKey | foreginKey
-//                 5 | Mario | 6 | 2
