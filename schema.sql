@@ -43,12 +43,7 @@ insert into role(title, salary, department_id) values("Payroll", 50000, 1);
 insert into role(title, salary, department_id) values("Full Stack Developer", 80000, 2);
 insert into role(title, salary, department_id) values("Project Manager", 100000, 2);
 
-insert into employee(first_name, last_name, role_id, manager_id) values("Mario", "Hernandez", 2, 1);
+insert into employee(first_name, last_name, role_id, manager_id) values("Mario", "Hernandez", 1, 1);
 insert into employee(first_name, last_name, role_id, manager_id) values("Ferd", "Dallas", 2, 1);
-insert into employee(first_name, last_name, role_id, manager_id) values("Chid", "Houston", 2, 1);
-insert into employee(first_name, last_name, role_id, manager_id) values("Austin", "Texas", 2, 1);
-insert into employee(first_name, last_name, role_id, manager_id) values("Drake", "Canada", 2, 1);
-insert into employee(first_name, last_name, role_id, manager_id) values("Curtis", "Jackson", 2, 1);
-
-UPDATE role SET title = 'title', salary= '100000' WHERE role(id) = 1;
-UPDATE employee SET last_name = 'last_name', City= 'Frankfurt' WHERE employee(id) = 1;
+insert into employee(first_name, last_name, role_id, manager_id) values("Chid", "Houston", 3, 1);
+insert into employee(first_name, last_name, role_id, manager_id) values("Austin", "Texas", 4, 1);

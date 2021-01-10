@@ -80,3 +80,81 @@ function addEmployee() {
         })
     })
 }
+
+function whichRole() {
+    connection.query(`select * from role`, function (err, rows) {
+        if (err) throw err;
+        // console.table(rows);
+        // console.table(rows[0]);
+        // console.table(rows[0].title);
+        let choices = [];
+        for (let i = 0; i < rows.length; i++) {
+            console.table(rows[i].title);
+            let title = rows[i].title;
+            // let salary = rows[i].salary;
+            // let id = rows[i].id;
+            choices.push(title);
+            console.log(choices)
+            // choices.push(salary);
+            // choices.push(id);
+
+
+        }
+        let salary = rows[i].salary;
+        console.log(salary)
+        
+// the point of this function below is to use the current choices and create a prompt
+// I moved this function outside the for loop 
+        createUsingChoices(choices, salary, id);
+    })
+}
+
+function createUsingChoices(arrayOfChoices, salary, id) {
+    inquirer.prompt({
+        name: "roles",
+        type: "rawlist",
+        choices: arrayOfChoices
+    }).then(function (answer) {
+        let employeeToBe = answer.roles;
+        console.log(employeeToBe);
+        connection.query(`UPDATE role SET title = '${employeeToBe}', salary= '${salary}' WHERE role(id) = ${id};
+        `, function (err) {
+            if (err) throw err;
+            viewRole();
+            // start();
+        })
+    })
+}
+
+
+
+function updateRole() {
+    inquirer.prompt([{
+            name: "roleId",
+            type: "input",
+            message: "What is the role ID?"
+        },
+        {
+            name: "employeeId",
+            type: "number",
+            message: "What is the emloyee ID?"
+        }
+    ]).then(function (answers) {
+        console.log("Role has been Updated...\n");
+        connection.query(
+            "UPDATE employee SET ? WHERE ?",
+            [{
+                    role_id: answers.role_id
+                },
+                {
+                    id: answers.employee_id
+                }
+            ],
+            function (err, res) {
+                if (err) throw err;
+                console.log(res.affectedRows + " products updated!\n");
+                // Call deleteProduct AFTER the UPDATE completes
+            })
+        // console.log(query.sql);
+    })
+}

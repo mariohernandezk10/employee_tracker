@@ -22,7 +22,6 @@ connection.connect(async function (err) {
 });
 
 // Functions to VIEW
-
 function viewDepartment() {
     // const SQL_STATEMENT = 'select * from department;';
     // const [rows, fields] = await connection.promise().query(SQL_STATEMENT);
@@ -53,12 +52,7 @@ function viewRole() {
     })
 }
 
-
-// Functions to ADD ----- TODO
-// 2. ADD Roles
-// 3. ADD Employees  ------ Doubles
-// I hard coded the SQL statement but I need to refer to what the user inputs via Prompt
-
+// Functions to ADD
 function addDepartment() {
     inquirer.prompt({
         name: "departmentName",
@@ -151,7 +145,7 @@ function start() {
         type: "rawlist",
         message: "What do you want to do?",
         // put these in variables
-        choices: ["View Department", "View Employee", "View Roles", "ADD Department", "ADD Employee", "ADD Role", "UPDATE Employee Role"]
+        choices: ["View Department", "View Employee", "View Roles", "ADD Department", "ADD Employee", "ADD Role", "UPDATE Employee Role", "Show Employee"]
     }).then(function (res) {
         switch (res.choice) {
             // reference variables here
@@ -174,39 +168,16 @@ function start() {
                 addRole();
                 break;
             case "UPDATE Employee Role":
-                whichRole();
+                updateRole();
+                // updateRole();
+                break;
+            case "Show Employee":
+                showEmployee();
                 break;
         }
     })
 }
 
-function whichRole() {
-    connection.query(`select * from role`, function (err, rows) {
-        if (err) throw err;
-        // console.table(rows);
-        // console.log(rows[0]);
-        // console.table(rows[0].title);
-        for (let i = 0; i < rows.length; i++) {
-            console.table(rows[i].title);
-            choices = rows[i].title;
-// the point of this function below is to use the current choices and create a prompt
-            createUsingChoices(choices);
-            stringChoice = choices.toString();
-
-        }
-    })
-}
-
-function createUsingChoices(stringChoice) {
-    inquirer.prompt({
-        name: "roles",
-        type: "rawlist",
-        choices: [stringChoice]
-    }).then(function (answer) {
-        let employeeToBe = answer.roles;
-        
-    })
-}
 
 // NEEDS WORK; TODO
 // Functions to UPDATE
@@ -214,36 +185,51 @@ function createUsingChoices(stringChoice) {
 // 2. UPDATE Employees
 // I hard coded the SQL statement but I need to refer to what the user inputs via Prompt
 
+
 function updateRole() {
     inquirer.prompt([{
-            name: "title",
-            type: "input",
-            message: "What is the new title of the employee?"
-        },
-        {
-            name: "salary",
-            type: "number",
-            message: "What is the employee's new salary?"
-        },
-        {
-            name: "id",
-            type: "number",
-            message: "What is the employee's id?"
-        }
-    ]).then(function (answer) {
-        var title = answer.title;
-        var salary = answer.salary;
-        connection.query(`UPDATE role SET title = '${title}', salary= '${salary}' WHERE role(id) = ${answer.id};
-        `, function (err) {
-            if (err) throw err;
-            viewRole();
-            // start();
-        })
+        name: "employeeId",
+        type: "number",
+        message: "What is the emloyee ID?"
+    }, 
+    {
+        name: "roleId",
+        type: "input",
+        message: "What is the role ID?"
+    },
+    {
+        name: "salary",
+        type: "input",
+        message: "What is the salary?"
+    }
+]).then(function (answers) {
+        connection.query(
+            "UPDATE employee SET ? WHERE ?",
+            [{
+                    role_id: answers.roleId
+                },
+                {
+                    id: answers.employeeId
+                }
+            ],
+            function (err, res) {
+                if (err) throw err;
+                console.log(res.affectedRows + " products updated!\n");
+                viewRole();
+                // Call deleteProduct AFTER the UPDATE completes
+            })
+        // console.log(query.sql);
     })
 }
 
 
-
+function showEmployee() {
+    connection.query(`SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.name FROM employee INNER JOIN role on role.id = employee.role_id LEFT JOIN department ON department.id = role.department_id;`, function (err, rows) {
+        if (err) throw err;
+        console.table(rows);
+        start();
+    })
+}
 
 
 
