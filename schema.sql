@@ -13,27 +13,23 @@ CREATE TABLE role(
   id INT NOT NULL AUTO_INCREMENT,
   title VARCHAR(30) NOT NULL,
   salary decimal,
---   to hold reference to department role belongs to
   department_id int,
   PRIMARY KEY (id), 
   FOREIGN KEY (department_id) REFERENCES department(id)
 );
 
 CREATE TABLE employee(
-  id INT NOT NULL AUTO_INCREMENT,
+  id INT PRIMARY KEY AUTO_INCREMENT,
   first_name VARCHAR(30) NOT NULL,
   last_name VARCHAR(30) NOT NULL,
---   INT to hold reference to role employee has
-  role_id int,
+  role_id int NULL,
   FOREIGN KEY (role_id) REFERENCES role(id),
---   isManager boolean,
---   to hold reference to another employee that 
--- manages the employee being Created. This field 
--- may be null if the employee has no manager
-  manager_id int,
-  FOREIGN KEY (manager_id) REFERENCES employee(id),
-  PRIMARY KEY (id)
+  manager_id INTEGER NULL,
+  FOREIGN KEY (manager_id) REFERENCES employee(id)
 );
+
+ALTER TABLE employee
+DROP CONSTRAINT employee_ibfk_1;
 
 insert into department(name) values("Human Resources");
 insert into department(name) values("Developers");
@@ -45,5 +41,5 @@ insert into role(title, salary, department_id) values("Project Manager", 100000,
 
 insert into employee(first_name, last_name, role_id, manager_id) values("Mario", "Hernandez", 1, 1);
 insert into employee(first_name, last_name, role_id, manager_id) values("Ferd", "Dallas", 2, 1);
-insert into employee(first_name, last_name, role_id, manager_id) values("Chid", "Houston", 3, 1);
+insert into employee(first_name, last_name, role_id, manager_id) values("Mike", "Tyson", 3, 1);
 insert into employee(first_name, last_name, role_id, manager_id) values("Austin", "Texas", 4, 1);
