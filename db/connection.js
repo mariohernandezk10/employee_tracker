@@ -1,5 +1,5 @@
 const util = require("util");
-const mysql = require("mysql");
+const mysql = require("mysql2");
 
 // THE ONLY THING THAT CHANGES HERE IS THE "database" key ON LINE 10
 var connection = mysql.createConnection({

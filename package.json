@@ -12,6 +12,8 @@
     "asciiart-logo": "^0.2.6",
     "console.table": "^0.10.0",
     "inquirer": "^7.0.0",
-    "mysql": "^2.17.1"
+    "mysql": "^2.17.1",
+    "mysql2": "^2.3.0",
+    "sequelize": "^6.6.5"
   }
 }
