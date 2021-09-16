@@ -1,23 +1,17 @@
 {
-  "name": "employee_tracker",
+  "name": "employee-tracker",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mariohernandezk10/employee_tracker.git"
+    "start": "node index"
   },
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/mariohernandezk10/employee_tracker/issues"
-  },
-  "homepage": "https://github.com/mariohernandezk10/employee_tracker#readme",
   "dependencies": {
-    "inquirer": "^7.3.3",
-    "mysql2": "^2.2.5"
+    "asciiart-logo": "^0.2.6",
+    "console.table": "^0.10.0",
+    "inquirer": "^7.0.0",
+    "mysql": "^2.17.1"
   }
 }
