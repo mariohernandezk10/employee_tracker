@@ -36,6 +36,11 @@ To install necessary dependencies, run the following command:
 npm i
 ```
 
+## Screenshot
+
+
+![picture 1](images/SS.png)  
+
 ## Langauges Used:
 ````
 JAVASCRIPT
